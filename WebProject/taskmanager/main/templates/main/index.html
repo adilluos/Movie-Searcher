@@ -1,0 +1,108 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Title
+{% endblock %}
+
+{% block content %}
+<style>
+    .moving1 {
+        position: relative;
+        animation: moveUpwards 1s;
+    }
+
+    .moving2 {
+        position: relative;
+        animation: moveUpwards 1.5s;
+    }
+
+    .moving3 {
+        position: relative;
+        animation: moveUpwards 2s;
+    }
+
+    .faded {
+        animation: faded 1s;
+    }
+
+    @keyframes moveUpwards {
+        from {
+            top: 10px;
+        }
+
+        to {
+            top: 0px;
+        }
+    }
+
+    @keyframes faded {
+        from {
+            opacity: 0.1;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+<br>
+<h1 style="text-align:center">Movie searcher. Know your film!</h1>
+<br>
+<form style="text-align:center" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="text" name="message">
+    <button type="submit" >Button's button</button>
+</form>
+{% if is_post_request %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 faded">
+        <div class="col moving1">
+          <div class="card shadow-sm">
+            <img src="{{ image_url }}" alt="Image" style="width: auto; height: 375px; object-fit: cover;">
+
+            <div class="card-body">
+              <p class="card-text" style="font-size:160%">{{ title }}</p>
+              <p class="card-text">{{ year }}</p>
+              <p class="card-text">{{ cast }}</p>
+
+            </div>
+          </div>
+        </div>
+        <div class="col moving2">
+          <div class="card shadow-sm">
+            <img src="{{ image_url1 }}" alt="Image" style="width: auto; height: 375px; object-fit: cover;">
+            <div class="card-body">
+              <p class="card-text" style="font-size:160%">{{ title1 }}</p>
+              <p class="card-text">{{ year1 }}</p>
+              <p class="card-text">{{ cast1 }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col moving3">
+          <div class="card shadow-sm">
+            <img src="{{ image_url2 }}" alt="Image" style="width: auto; height: 375px; object-fit: cover;">
+            <div class="card-body">
+              <p class="card-text" style="font-size:160%">{{ title2 }}</p>
+              <p class="card-text">{{ year2 }}</p>
+              <p class="card-text">{{ cast2 }}</p>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% if no_errors %}
+<br>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <p class="card-text" style="font-size:160%; text-align:center">Error occured. Perhaps no film is found</p>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
